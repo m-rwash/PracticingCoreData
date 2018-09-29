@@ -12,6 +12,9 @@
 		AA6298FB215FA81D006C50AB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA6298F9215FA81D006C50AB /* Main.storyboard */; };
 		AA6298FD215FA81D006C50AB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA6298FC215FA81D006C50AB /* Assets.xcassets */; };
 		AA629900215FA81D006C50AB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA6298FE215FA81D006C50AB /* LaunchScreen.storyboard */; };
+		AA629908215FB00B006C50AB /* UIColor+Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA629907215FB00B006C50AB /* UIColor+Theme.swift */; };
+		AA62990A215FB1E6006C50AB /* Anime.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA629909215FB1E6006C50AB /* Anime.swift */; };
+		AA62990C215FB5BA006C50AB /* CreateAnimeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA62990B215FB5BA006C50AB /* CreateAnimeVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +25,9 @@
 		AA6298FC215FA81D006C50AB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AA6298FF215FA81D006C50AB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AA629901215FA81D006C50AB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AA629907215FB00B006C50AB /* UIColor+Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Theme.swift"; sourceTree = "<group>"; };
+		AA629909215FB1E6006C50AB /* Anime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Anime.swift; sourceTree = "<group>"; };
+		AA62990B215FB5BA006C50AB /* CreateAnimeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAnimeVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +66,9 @@
 				AA6298FC215FA81D006C50AB /* Assets.xcassets */,
 				AA6298FE215FA81D006C50AB /* LaunchScreen.storyboard */,
 				AA629901215FA81D006C50AB /* Info.plist */,
+				AA629907215FB00B006C50AB /* UIColor+Theme.swift */,
+				AA629909215FB1E6006C50AB /* Anime.swift */,
+				AA62990B215FB5BA006C50AB /* CreateAnimeVC.swift */,
 			);
 			path = TopAnime;
 			sourceTree = "<group>";
@@ -135,8 +144,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA62990A215FB1E6006C50AB /* Anime.swift in Sources */,
+				AA629908215FB00B006C50AB /* UIColor+Theme.swift in Sources */,
 				AA6298F8215FA81D006C50AB /* AnimesListVC.swift in Sources */,
 				AA6298F6215FA81D006C50AB /* AppDelegate.swift in Sources */,
+				AA62990C215FB5BA006C50AB /* CreateAnimeVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
