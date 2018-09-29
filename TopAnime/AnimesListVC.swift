@@ -65,40 +65,72 @@ class AnimesListVC: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellID", for: indexPath)
-        cell.textLabel?.text = animes[indexPath.row].name
+        let anime = animes[indexPath.row]
+        
+        if let name = anime.name, let aired = anime.aired, let imageData = anime.imageData {
+            
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "MMM dd, yyyy"
+            let airedFormattedString = dateFormatter.string(from: aired)
+            
+            cell.textLabel?.text = "\(name) - Aired: \(airedFormattedString)"
+            
+            cell.imageView?.image = UIImage(data: imageData)
+            
+        }else{
+            cell.textLabel?.text = anime.name
+        }
+        
         cell.textLabel?.textColor = .white
+        
         cell.backgroundColor = UIColor.lightBlueColor
         return cell
     }
     
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        let deleteAction = UITableViewRowAction(style: .destructive, title: "Delete") { (_, indexPath) in
-            let anime = self.animes[indexPath.row]
-            
-            // remove locally
-            self.animes.remove(at: indexPath.row)
-            self.tableView.deleteRows(at: [indexPath], with: .automatic)
-            
-            //remove from CoreData
-            let context = CoreDataManager.shared.persistentContainer.viewContext
-            context.delete(anime)
-            
-            do{
-                try context.save()
-            }catch let error{
-                print(error)
-            }
-        }
-        
-        let editAction = UITableViewRowAction(style: .normal, title: "Edit") { (_, indexPath) in
-            let anime = self.animes[indexPath.row]
-        }
+        let deleteAction = UITableViewRowAction(style: .destructive, title: "Delete", handler: deleteActionHandler)
+
+        let editAction = UITableViewRowAction(style: .normal, title: "Edit", handler: editActionHandler)
+        editAction.backgroundColor = UIColor.darkBlueColor
         
         return [deleteAction, editAction]
     }
+    
+    private func deleteActionHandler(action: UITableViewRowAction, indexPath: IndexPath){
+        let anime = self.animes[indexPath.row]
+        
+        // remove locally
+        self.animes.remove(at: indexPath.row)
+        self.tableView.deleteRows(at: [indexPath], with: .automatic)
+        
+        //remove from CoreData
+        let context = CoreDataManager.shared.persistentContainer.viewContext
+        context.delete(anime)
+        
+        do{
+            try context.save()
+        }catch let error{
+            print(error)
+        }
+    }
+    
+    private func editActionHandler(action: UITableViewRowAction, indexPath: IndexPath){
+        let anime = self.animes[indexPath.row]
+        let editAnimeVC = CreateAnimeVC()
+        editAnimeVC.anime = anime
+        editAnimeVC.delegate = self
+        let navVC = UINavigationController(rootViewController: editAnimeVC)
+        present(navVC, animated: true, completion: nil)
+    }
+    
 }
 
 extension AnimesListVC: CreateAnimeVCDelegate{
+    func didEditAnime(anime: Anime) {
+        let row = animes.index(of: anime)
+        tableView.reloadRows(at: [IndexPath(row: row!, section: 0)], with: .automatic)
+    }
+    
     func didAddAnime(anime: Anime) {
         animes.append(anime)
         tableView.insertRows(at: [IndexPath(row: animes.count-1, section: 0)], with: .automatic)
