@@ -7,14 +7,11 @@
 //
 
 import UIKit
+import CoreData
 
 class AnimesListVC: UITableViewController {
     
-    var dummyAnimesList = [
-        Anime(name: "One Punch Man 2", type: "TV", startDate: Date()),
-        Anime(name: "Evangelion: 3.0+1.0", type: "Movie", startDate: Date()),
-        Anime(name: "Code Geass: Fukkatsu no Lelouch", type: "Movie", startDate: Date())
-    ]
+    var animes = [Anime]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,7 +23,21 @@ class AnimesListVC: UITableViewController {
         
         navigationItem.title = "Animes"
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "plus"), style: .plain, target: self, action: #selector(handleAddNewAnimeAction))
+        fetchAnimes()
+    }
+    
+    func fetchAnimes(){
+        let context = CoreDataManager.shared.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<Anime>(entityName: "Anime")
         
+        do{
+            let animes = try context.fetch(fetchRequest)
+            self.animes = animes
+            self.tableView.reloadData()
+            
+        }catch let error {
+            print(error)
+        }
     }
     
     @objc func handleAddNewAnimeAction() {
@@ -48,12 +59,12 @@ class AnimesListVC: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dummyAnimesList.count
+        return animes.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellID", for: indexPath)
-        cell.textLabel?.text = dummyAnimesList[indexPath.row].name
+        cell.textLabel?.text = animes[indexPath.row].name
         cell.textLabel?.textColor = .white
         cell.backgroundColor = UIColor.lightBlueColor
         return cell
@@ -62,7 +73,7 @@ class AnimesListVC: UITableViewController {
 
 extension AnimesListVC: CreateAnimeVCDelegate{
     func didAddAnime(anime: Anime) {
-        dummyAnimesList.append(anime)
-        tableView.insertRows(at: [IndexPath(row: dummyAnimesList.count-1, section: 0)], with: .automatic)
+        animes.append(anime)
+        tableView.insertRows(at: [IndexPath(row: animes.count-1, section: 0)], with: .automatic)
     }
 }

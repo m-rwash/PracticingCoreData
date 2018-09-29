@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 protocol CreateAnimeVCDelegate {
     func didAddAnime(anime: Anime)
@@ -52,11 +53,23 @@ class CreateAnimeVC: UIViewController {
     }
     
     @objc func handleSaveAnimeAction(){
-        dismiss(animated: true){
-            guard let name = self.nameTextField.text else { return }
-            let anime = Anime(name: name, type: "Movie", startDate: Date())
-            self.delegate?.didAddAnime(anime: anime)
+
+        let context = CoreDataManager.shared.persistentContainer.viewContext
+        let anime = NSEntityDescription.insertNewObject(forEntityName: "Anime", into: context)
+        
+        guard let animeName = self.nameTextField.text else { return }
+        
+        anime.setValue(animeName, forKey: "name")
+        
+        do{
+            try context.save()
+            dismiss(animated: true){
+                self.delegate?.didAddAnime(anime: anime as! Anime)
+            }
+        }catch let error {
+            print(error)
         }
+        
     }
     
     @objc func handleCancelAction(){
