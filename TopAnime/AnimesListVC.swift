@@ -20,6 +20,7 @@ class AnimesListVC: UITableViewController {
         tableView.backgroundColor = UIColor.darkBlueColor
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cellID")
         tableView.tableFooterView = UIView()
+        tableView.separatorColor = UIColor.white
         
         navigationItem.title = "Animes"
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "plus"), style: .plain, target: self, action: #selector(handleAddNewAnimeAction))
@@ -68,6 +69,32 @@ class AnimesListVC: UITableViewController {
         cell.textLabel?.textColor = .white
         cell.backgroundColor = UIColor.lightBlueColor
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let deleteAction = UITableViewRowAction(style: .destructive, title: "Delete") { (_, indexPath) in
+            let anime = self.animes[indexPath.row]
+            
+            // remove locally
+            self.animes.remove(at: indexPath.row)
+            self.tableView.deleteRows(at: [indexPath], with: .automatic)
+            
+            //remove from CoreData
+            let context = CoreDataManager.shared.persistentContainer.viewContext
+            context.delete(anime)
+            
+            do{
+                try context.save()
+            }catch let error{
+                print(error)
+            }
+        }
+        
+        let editAction = UITableViewRowAction(style: .normal, title: "Edit") { (_, indexPath) in
+            let anime = self.animes[indexPath.row]
+        }
+        
+        return [deleteAction, editAction]
     }
 }
 

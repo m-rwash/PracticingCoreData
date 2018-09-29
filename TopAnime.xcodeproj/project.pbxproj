@@ -16,6 +16,7 @@
 		AA62990A215FB1E6006C50AB /* Anime.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA629909215FB1E6006C50AB /* Anime.swift */; };
 		AA62990C215FB5BA006C50AB /* CreateAnimeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA62990B215FB5BA006C50AB /* CreateAnimeVC.swift */; };
 		AA629912215FC87A006C50AB /* TopAnimeModels.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AA629910215FC87A006C50AB /* TopAnimeModels.xcdatamodeld */; };
+		AA629914215FD017006C50AB /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA629913215FD017006C50AB /* CoreDataManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		AA629909215FB1E6006C50AB /* Anime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Anime.swift; sourceTree = "<group>"; };
 		AA62990B215FB5BA006C50AB /* CreateAnimeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAnimeVC.swift; sourceTree = "<group>"; };
 		AA629911215FC87A006C50AB /* TopAnimeModels.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TopAnimeModels.xcdatamodel; sourceTree = "<group>"; };
+		AA629913215FD017006C50AB /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +74,7 @@
 				AA629907215FB00B006C50AB /* UIColor+Theme.swift */,
 				AA629909215FB1E6006C50AB /* Anime.swift */,
 				AA62990B215FB5BA006C50AB /* CreateAnimeVC.swift */,
+				AA629913215FD017006C50AB /* CoreDataManager.swift */,
 			);
 			path = TopAnime;
 			sourceTree = "<group>";
@@ -152,6 +155,7 @@
 				AA6298F8215FA81D006C50AB /* AnimesListVC.swift in Sources */,
 				AA6298F6215FA81D006C50AB /* AppDelegate.swift in Sources */,
 				AA629912215FC87A006C50AB /* TopAnimeModels.xcdatamodeld in Sources */,
+				AA629914215FD017006C50AB /* CoreDataManager.swift in Sources */,
 				AA62990C215FB5BA006C50AB /* CreateAnimeVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
