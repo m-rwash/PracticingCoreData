@@ -7,3 +7,9 @@
 //
 
 import Foundation
+
+struct Anime {
+    let name: String
+    let type: String
+    let startDate: Date
+}
