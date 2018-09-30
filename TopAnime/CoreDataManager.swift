@@ -21,4 +21,17 @@ struct CoreDataManager {
         }
         return container
     }()
+    
+    func fetchAnimes() -> [Anime]{
+        let context = persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<Anime>(entityName: "Anime")
+        do{
+            let animes = try context.fetch(fetchRequest)
+            return animes
+        }catch let error {
+            print(error)
+            return[]
+        }
+    }
+    
 }
