@@ -10,6 +10,23 @@ import UIKit
 
 class AnimeCell: UITableViewCell {
     
+    var anime: Anime?{
+        didSet{
+            if let imageData = anime?.imageData{
+                animeImageView.image = UIImage(data: imageData)
+            }
+            
+            if let name = anime?.name, let aired = anime?.aired{
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "MMM dd, yyyy"
+                let airedFormattedString = dateFormatter.string(from: aired)
+                animeAiredLabel.text = "\(name) - Aired: \(airedFormattedString)"
+            }else{
+                animeAiredLabel.text = anime?.name
+            }
+        }
+    }
+    
     let animeImageView: UIImageView = {
         let imageViwe = UIImageView(image: UIImage(named: "default_image"))
         imageViwe.contentMode = .scaleAspectFill
