@@ -10,12 +10,12 @@ import UIKit
 
 class AnimeCell: UITableViewCell {
     
+    // MARK: - Initializer
     var anime: Anime?{
         didSet{
             if let imageData = anime?.imageData{
                 animeImageView.image = UIImage(data: imageData)
             }
-            
             if let name = anime?.name, let aired = anime?.aired{
                 let dateFormatter = DateFormatter()
                 dateFormatter.dateFormat = "MMM dd, yyyy"
@@ -27,10 +27,14 @@ class AnimeCell: UITableViewCell {
         }
     }
     
+    // MARK: - Setup Views
+    // MARK: Declaring Views Elements
     let animeImageView: UIImageView = {
         let imageViwe = UIImageView(image: UIImage(named: "default_image"))
         imageViwe.contentMode = .scaleAspectFill
         imageViwe.translatesAutoresizingMaskIntoConstraints = false
+        imageViwe.clipsToBounds = true
+        imageViwe.layer.cornerRadius = 20
         return imageViwe
     }()
     
@@ -42,6 +46,7 @@ class AnimeCell: UITableViewCell {
         return label
     }()
     
+    // MARK: Constrains
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -58,7 +63,6 @@ class AnimeCell: UITableViewCell {
         animeAiredLabel.topAnchor.constraint(equalTo: topAnchor).isActive = true
         animeAiredLabel.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         animeAiredLabel.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-
     }
     
     required init?(coder aDecoder: NSCoder) {

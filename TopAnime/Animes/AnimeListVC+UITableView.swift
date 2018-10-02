@@ -13,6 +13,19 @@ extension AnimesListVC {
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = UIView()
         view.backgroundColor = UIColor.whiteBlueColor
+
+        let label = UILabel()
+        
+        view.addSubview(label)
+        
+        label.text = "Titles"
+        label.textAlignment = .natural
+        label.textColor = UIColor.darkBlueColor
+        label.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        label.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10).isActive = true
+        
         return view
     }
     
