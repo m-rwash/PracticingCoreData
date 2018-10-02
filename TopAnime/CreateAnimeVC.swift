@@ -16,6 +16,7 @@ protocol CreateAnimeVCDelegate {
 
 class CreateAnimeVC: UIViewController {
     
+    // MARK: - Initializer
     var anime: Anime? {
         didSet{
             nameTextField.text = anime?.name
@@ -29,6 +30,8 @@ class CreateAnimeVC: UIViewController {
     
     var delegate: CreateAnimeVCDelegate?
     
+    // MARK: - Setup Views
+    // MARK: Declaring Views Elements
     let inputsHolderView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -44,7 +47,20 @@ class CreateAnimeVC: UIViewController {
         imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleSelectImageAction)))
         return imageView
     }()
-
+    
+    lazy var selectPhotoLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.backgroundColor = UIColor.clear
+        label.layer.borderColor = UIColor.darkBlueColor.cgColor
+        label.layer.borderWidth = 1.0
+        label.textAlignment = .center
+        label.text = "Select Photo"
+        label.isUserInteractionEnabled = true
+        label.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleSelectImageAction)))
+        return label
+    }()
+    
     let nameTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -61,14 +77,30 @@ class CreateAnimeVC: UIViewController {
         return label
     }()
     
-    let datePicker: UIDatePicker = {
+    let dateLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.backgroundColor = UIColor.clear
+        label.text = "Aired"
+        return label
+    }()
+    
+    let selectedDateLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.backgroundColor = UIColor.clear
+        return label
+    }()
+    
+    lazy var datePicker: UIDatePicker = {
         let dp = UIDatePicker()
         dp.translatesAutoresizingMaskIntoConstraints = false
         dp.datePickerMode = .date
-        
+        dp.addTarget(self, action: #selector(handleDatePickerChangedValue), for: .valueChanged)
         return dp
     }()
 
+    // MARK: View LifeCycle
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationItem.title = anime == nil ? "Create Anime" : "Edit Anime"
@@ -83,6 +115,76 @@ class CreateAnimeVC: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(handleSaveAnimeAction))
         
         setupUI()
+    }
+    
+    // MARK: Constrains
+    func setupUI(){
+        view.addSubview(inputsHolderView)
+        
+        inputsHolderView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        inputsHolderView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        inputsHolderView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        inputsHolderView.heightAnchor.constraint(equalToConstant: 450).isActive = true
+        
+        inputsHolderView.addSubview(animeImageView)
+        animeImageView.topAnchor.constraint(equalTo: inputsHolderView.topAnchor, constant: 8).isActive = true
+        animeImageView.centerXAnchor.constraint(equalTo: inputsHolderView.centerXAnchor).isActive = true
+        animeImageView.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        animeImageView.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        setupAnimeImageView()
+        
+        inputsHolderView.addSubview(selectPhotoLabel)
+        selectPhotoLabel.topAnchor.constraint(equalTo: animeImageView.bottomAnchor, constant: 8).isActive = true
+        selectPhotoLabel.centerXAnchor.constraint(equalTo: inputsHolderView.centerXAnchor).isActive = true
+        selectPhotoLabel.leftAnchor.constraint(equalTo: inputsHolderView.leftAnchor, constant: 10).isActive = true
+        selectPhotoLabel.rightAnchor.constraint(equalTo: inputsHolderView.rightAnchor, constant: -10).isActive = true
+        selectPhotoLabel.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        
+        inputsHolderView.addSubview(nameLabel)
+        nameLabel.topAnchor.constraint(equalTo: selectPhotoLabel.bottomAnchor, constant: 8).isActive = true
+        nameLabel.leftAnchor.constraint(equalTo: inputsHolderView.leftAnchor, constant: 16).isActive = true
+        nameLabel.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        nameLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        
+        inputsHolderView.addSubview(nameTextField)
+        nameTextField.topAnchor.constraint(equalTo: nameLabel.topAnchor).isActive = true
+        nameTextField.leftAnchor.constraint(equalTo: nameLabel.rightAnchor).isActive = true
+        nameTextField.widthAnchor.constraint(equalTo: nameLabel.widthAnchor).isActive = true
+        nameTextField.heightAnchor.constraint(equalTo: nameLabel.heightAnchor).isActive = true
+        
+        inputsHolderView.addSubview(dateLabel)
+        dateLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8).isActive = true
+        dateLabel.leftAnchor.constraint(equalTo: inputsHolderView.leftAnchor, constant: 16).isActive = true
+        dateLabel.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        dateLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        
+        inputsHolderView.addSubview(selectedDateLabel)
+        selectedDateLabel.topAnchor.constraint(equalTo: dateLabel.topAnchor).isActive = true
+        selectedDateLabel.leftAnchor.constraint(equalTo: dateLabel.rightAnchor).isActive = true
+        selectedDateLabel.widthAnchor.constraint(equalTo: dateLabel.widthAnchor).isActive = true
+        selectedDateLabel.heightAnchor.constraint(equalTo: dateLabel.heightAnchor).isActive = true
+        
+        
+        inputsHolderView.addSubview(datePicker)
+        datePicker.topAnchor.constraint(equalTo: dateLabel.bottomAnchor).isActive = true
+        datePicker.leftAnchor.constraint(equalTo: inputsHolderView.leftAnchor).isActive = true
+        datePicker.rightAnchor.constraint(equalTo: inputsHolderView.rightAnchor).isActive = true
+        datePicker.bottomAnchor.constraint(equalTo: inputsHolderView.bottomAnchor).isActive = true
+    }
+    
+    private func setupAnimeImageView(){
+        animeImageView.layer.cornerRadius = animeImageView.frame.width / 2
+        animeImageView.clipsToBounds = true
+        animeImageView.layer.borderColor = UIColor.darkBlueColor.cgColor
+        animeImageView.layer.borderWidth = 2
+    }
+    
+    
+    // MARK: Actions
+    @objc func handleDatePickerChangedValue(){
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMM dd, yyyy"
+        selectedDateLabel.text = dateFormatter.string(from: datePicker.date)
     }
     
     @objc func handleSelectImageAction(){
@@ -149,47 +251,7 @@ class CreateAnimeVC: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
-    func setupUI(){
-        view.addSubview(inputsHolderView)
-        
-        inputsHolderView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        inputsHolderView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        inputsHolderView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        inputsHolderView.heightAnchor.constraint(equalToConstant: 350).isActive = true
-        
-        inputsHolderView.addSubview(animeImageView)
-        animeImageView.topAnchor.constraint(equalTo: inputsHolderView.topAnchor, constant: 8).isActive = true
-        animeImageView.centerXAnchor.constraint(equalTo: inputsHolderView.centerXAnchor).isActive = true
-        animeImageView.heightAnchor.constraint(equalToConstant: 100).isActive = true
-        animeImageView.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        setupAnimeImageView()
-
-        inputsHolderView.addSubview(nameLabel)
-        nameLabel.topAnchor.constraint(equalTo: animeImageView.bottomAnchor).isActive = true
-        nameLabel.leftAnchor.constraint(equalTo: inputsHolderView.leftAnchor, constant: 16).isActive = true
-        nameLabel.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        nameLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
-
-        inputsHolderView.addSubview(nameTextField)
-        nameTextField.topAnchor.constraint(equalTo: nameLabel.topAnchor).isActive = true
-        nameTextField.leftAnchor.constraint(equalTo: nameLabel.rightAnchor).isActive = true
-        nameTextField.widthAnchor.constraint(equalTo: nameLabel.widthAnchor).isActive = true
-        nameTextField.heightAnchor.constraint(equalTo: nameLabel.heightAnchor).isActive = true
-        
-        inputsHolderView.addSubview(datePicker)
-        datePicker.topAnchor.constraint(equalTo: nameLabel.bottomAnchor).isActive = true
-        datePicker.leftAnchor.constraint(equalTo: inputsHolderView.leftAnchor).isActive = true
-        datePicker.rightAnchor.constraint(equalTo: inputsHolderView.rightAnchor).isActive = true
-        datePicker.bottomAnchor.constraint(equalTo: inputsHolderView.bottomAnchor).isActive = true
-    }
     
-
-    private func setupAnimeImageView(){
-        animeImageView.layer.cornerRadius = animeImageView.frame.width / 2
-        animeImageView.clipsToBounds = true
-        animeImageView.layer.borderColor = UIColor.darkBlueColor.cgColor
-        animeImageView.layer.borderWidth = 2
-    }
 }
 
 extension CreateAnimeVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate{
