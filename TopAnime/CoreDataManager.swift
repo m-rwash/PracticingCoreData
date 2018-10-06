@@ -39,6 +39,13 @@ struct CoreDataManager {
         
         let character = NSEntityDescription.insertNewObject(forEntityName: "Character", into: context) as! Character
         character.setValue(characterName, forKey: "name")
+        
+        let characterInfo = NSEntityDescription.insertNewObject(forEntityName: "CharacterInfo", into: context) as! CharacterInfo
+        
+        characterInfo.gender = "Male"
+        
+        character.characterInfo = characterInfo
+        
         do{
             try context.save()
             return (character, nil)

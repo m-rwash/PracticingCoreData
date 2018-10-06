@@ -6,10 +6,20 @@
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="Character" representedClassName="Character" syncable="YES" codeGenerationType="class">
+        <attribute name="birthdate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="realName" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="characterInfo" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CharacterInfo" inverseName="character" inverseEntity="CharacterInfo" syncable="YES"/>
+    </entity>
+    <entity name="CharacterInfo" representedClassName="CharacterInfo" syncable="YES" codeGenerationType="class">
+        <attribute name="birthdate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="deck" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="gender" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="character" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Character" inverseName="characterInfo" inverseEntity="Character" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Anime" positionX="-54" positionY="-9" width="128" height="90"/>
-        <element name="Character" positionX="-54" positionY="18" width="128" height="60"/>
+        <element name="Anime" positionX="-235.55078125" positionY="-311.4453125" width="128" height="90"/>
+        <element name="Character" positionX="-288.015625" positionY="-133.9609375" width="128" height="103"/>
+        <element name="CharacterInfo" positionX="-63.77734375" positionY="-133.671875" width="128" height="103"/>
     </elements>
 </model>

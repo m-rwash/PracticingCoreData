@@ -58,7 +58,14 @@ class CharactersListVC: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
-        cell.textLabel?.text = characters[indexPath.row].name
+        let character = characters[indexPath.row]
+        
+        cell.textLabel?.text = character.name
+        
+        if let gender = character.characterInfo?.gender {
+            cell.textLabel?.text?.append(" - " + gender)
+        }
+        
         cell.textLabel?.textColor = UIColor.white
         cell.backgroundColor = UIColor.lightBlueColor
         cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 16)
