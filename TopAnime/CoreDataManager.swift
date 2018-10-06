@@ -34,4 +34,17 @@ struct CoreDataManager {
         }
     }
     
+    func createCharacter(characterName: String) -> (Character? ,Error?) {
+        let context = persistentContainer.viewContext
+        
+        let character = NSEntityDescription.insertNewObject(forEntityName: "Character", into: context) as! Character
+        character.setValue(characterName, forKey: "name")
+        do{
+            try context.save()
+            return (character, nil)
+        }catch let error{
+            return (nil, error)
+        }
+    }
+    
 }

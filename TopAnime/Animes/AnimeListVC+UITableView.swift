@@ -55,7 +55,7 @@ extension AnimesListVC {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cellID", for: indexPath) as! AnimeCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! AnimeCell
         let anime = animes[indexPath.row]
         cell.anime = anime
         return cell
@@ -68,6 +68,13 @@ extension AnimesListVC {
         editAction.backgroundColor = UIColor.darkBlueColor
         
         return [deleteAction, editAction]
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let charactersVC = CharactersListVC()
+        let anime = animes[indexPath.row]
+        charactersVC.anime = anime
+        navigationController?.pushViewController(charactersVC, animated: true)
     }
     
     private func deleteActionHandler(action: UITableViewRowAction, indexPath: IndexPath){

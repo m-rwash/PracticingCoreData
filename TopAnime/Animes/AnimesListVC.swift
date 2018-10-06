@@ -12,6 +12,8 @@ import CoreData
 class AnimesListVC: UITableViewController {
     
     var animes = [Anime]()
+    
+    let cellID = "animeCellID"
 
     // MARK: - Setup view
     override func viewDidLoad() {
@@ -21,15 +23,17 @@ class AnimesListVC: UITableViewController {
         self.animes = CoreDataManager.shared.fetchAnimes()
 
         // MARK: Setup UITableView
-        tableView.register(AnimeCell.self, forCellReuseIdentifier: "cellID")
+        tableView.register(AnimeCell.self, forCellReuseIdentifier: cellID)
         tableView.backgroundColor = UIColor.darkBlueColor
         tableView.tableFooterView = UIView()
         tableView.separatorColor = UIColor.white
-        tableView.allowsSelection = false
+        tableView.allowsSelection = true
         
         // MARK: Setup Navigation Bar
         navigationItem.title = "Animes"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "plus"), style: .plain, target: self, action: #selector(handleAddNewAnimeAction))
+
+        setupPlusButtonInNavBar(selector: #selector(handleAddNewAnimeAction))
+        
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Reset", style: .plain, target: self, action: #selector(handleResetAction))
     }
     

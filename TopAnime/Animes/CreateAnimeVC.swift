@@ -32,13 +32,6 @@ class CreateAnimeVC: UIViewController {
     
     // MARK: - Setup Views
     // MARK: Declaring Views Elements
-    let inputsHolderView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = UIColor.whiteBlueColor
-        return view
-    }()
-    
     lazy var animeImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(named: "default_image"))
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -111,20 +104,15 @@ class CreateAnimeVC: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = UIColor.darkBlueColor
         
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(handleCancelAction))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(handleSaveAnimeAction))
+        setupSaveButtonInNavBar(selector: #selector(handleSaveAnimeAction))
+        setupCancelButtonInNavBar()
         
         setupUI()
     }
     
     // MARK: Constrains
     func setupUI(){
-        view.addSubview(inputsHolderView)
-        
-        inputsHolderView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        inputsHolderView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        inputsHolderView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        inputsHolderView.heightAnchor.constraint(equalToConstant: 450).isActive = true
+        let inputsHolderView = setupInputsHolderView(height: 450)
         
         inputsHolderView.addSubview(animeImageView)
         animeImageView.topAnchor.constraint(equalTo: inputsHolderView.topAnchor, constant: 8).isActive = true
@@ -246,12 +234,6 @@ class CreateAnimeVC: UIViewController {
             print(error)
         }
     }
-    
-    @objc func handleCancelAction(){
-        dismiss(animated: true, completion: nil)
-    }
-    
-    
 }
 
 extension CreateAnimeVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate{
