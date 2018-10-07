@@ -34,15 +34,20 @@ struct CoreDataManager {
         }
     }
     
-    func createCharacter(characterName: String) -> (Character? ,Error?) {
+    func createCharacter(characterName: String, characterBirthdate: Date, characterGender: String, anime: Anime) -> (Character? ,Error?) {
         let context = persistentContainer.viewContext
         
         let character = NSEntityDescription.insertNewObject(forEntityName: "Character", into: context) as! Character
+        
+        character.anime = anime
+        
+        character.birthdate = characterBirthdate
+        
         character.setValue(characterName, forKey: "name")
         
         let characterInfo = NSEntityDescription.insertNewObject(forEntityName: "CharacterInfo", into: context) as! CharacterInfo
         
-        characterInfo.gender = "Male"
+        characterInfo.gender = characterGender
         
         character.characterInfo = characterInfo
         

@@ -14,6 +14,12 @@ class CharactersListVC: UITableViewController {
     var anime: Anime?
     var characters = [Character]()
     
+    var maleCharacters   = [Character]()
+    var femaleCharacters = [Character]()
+    var allCharacters = [[Character]]()
+    
+    var genders = [CharacterGender.Male.rawValue, CharacterGender.Female.rawValue, CharacterGender.Undefined.rawValue]
+
     let cellID = "characterCellID"
 
     override func viewDidLoad() {
@@ -34,41 +40,29 @@ class CharactersListVC: UITableViewController {
     @objc func handleAddCharacterAction(){
         let createCharacterVC = CreateCharacterVC()
         createCharacterVC.delegate = self
+        createCharacterVC.anime = anime
         let navBarVC = UINavigationController(rootViewController: createCharacterVC)
         present(navBarVC, animated: true, completion: nil)
     }
     
-    private func fetchCharacters(){
-        let context = CoreDataManager.shared.persistentContainer.viewContext
+    func fetchCharacters(){
+        guard let animeCharacters = anime?.characters?.allObjects as? [Character] else { return }
         
-        let request = NSFetchRequest<Character>(entityName: "Character")
-        do{
-            let characters = try context.fetch(request)
-            self.characters = characters
-            
-        }catch let error{
-            print(error)
-        }
-    }
-    
-    
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return characters.count
-    }
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
-        let character = characters[indexPath.row]
+        characters = []
         
-        cell.textLabel?.text = character.name
-        
-        if let gender = character.characterInfo?.gender {
-            cell.textLabel?.text?.append(" - " + gender)
+        genders.forEach { (gender) in
+            allCharacters.append(animeCharacters.filter { $0.characterInfo?.gender == gender } )
         }
         
-        cell.textLabel?.textColor = UIColor.white
-        cell.backgroundColor = UIColor.lightBlueColor
-        cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 16)
-        return cell
+//        self.characters = animeCharacters
+//
+//        maleCharacters   = animeCharacters.filter{$0.characterInfo?.gender == CharacterGender.Male.rawValue}
+//
+//        femaleCharacters = animeCharacters.filter{$0.characterInfo?.gender == CharacterGender.Female.rawValue}
+//
+//        allCharacters = [ maleCharacters, femaleCharacters ]
+        
     }
+    
+    
 }

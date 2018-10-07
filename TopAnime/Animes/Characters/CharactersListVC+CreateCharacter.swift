@@ -9,8 +9,18 @@ import UIKit
 
 extension CharactersListVC: CreateCharacterVCDelegate{
     func didAddCharacter(character: Character) {
-        self.characters.append(character)
-        self.tableView.insertRows(at: [IndexPath(row: characters.count - 1, section: 0)], with: .automatic)
+//        fetchCharacters()
+//        self.tableView.reloadData()
+
+        guard let section = genders.index(of: (character.characterInfo?.gender)!) else { return }
+        
+        let row = allCharacters[section].count
+        
+        let indexPath = IndexPath(row: row, section: section)
+        
+        allCharacters[section].append(character)
+        
+        tableView.insertRows(at: [indexPath], with: .automatic)
     }
 }
 

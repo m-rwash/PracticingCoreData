@@ -4,11 +4,13 @@
         <attribute name="aired" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="imageData" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="characters" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Character" inverseName="anime" inverseEntity="Character" syncable="YES"/>
     </entity>
     <entity name="Character" representedClassName="Character" syncable="YES" codeGenerationType="class">
         <attribute name="birthdate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="realName" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="anime" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Anime" inverseName="characters" inverseEntity="Anime" syncable="YES"/>
         <relationship name="characterInfo" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CharacterInfo" inverseName="character" inverseEntity="CharacterInfo" syncable="YES"/>
     </entity>
     <entity name="CharacterInfo" representedClassName="CharacterInfo" syncable="YES" codeGenerationType="class">
@@ -18,8 +20,8 @@
         <relationship name="character" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Character" inverseName="characterInfo" inverseEntity="Character" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Anime" positionX="-235.55078125" positionY="-311.4453125" width="128" height="90"/>
-        <element name="Character" positionX="-288.015625" positionY="-133.9609375" width="128" height="103"/>
+        <element name="Anime" positionX="-289.4609375" positionY="-367.8359375" width="128" height="103"/>
+        <element name="Character" positionX="-288.015625" positionY="-133.9609375" width="128" height="118"/>
         <element name="CharacterInfo" positionX="-63.77734375" positionY="-133.671875" width="128" height="103"/>
     </elements>
 </model>
